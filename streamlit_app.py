@@ -20,6 +20,7 @@ def get_last_counting_public(municipality, page=1):
     return dados
 
 # colocar um input com o municipio
-municipality = st.text_input(label="Digite o nome do município: ")
+municipality = st.text_input(label="Digite o nome do município: ", value="Aceguá")
 
-get_last_counting_public(municipality)
+df_municipio = get_last_counting_public(municipality)
+df_municipio
