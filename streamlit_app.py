@@ -52,7 +52,7 @@ if processar:
     df['month'] = df['date'].dt.month  # ou df['date'].dt.strftime('%B') para nome do mês
     
     # Filtrar o DataFrame pelo ano selecionado
-    df_filtrado = df[df['year'] == ano_escolhido]
+    df_filtrado = df[df['year'] == int(ano_escolhido)]
     df_filtrado
     
     # Agrupar pelos campos desejados e calcular as agregações
