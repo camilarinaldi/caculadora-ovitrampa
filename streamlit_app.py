@@ -53,7 +53,6 @@ if processar:
     
     # Filtrar o DataFrame pelo ano selecionado
     df_filtrado = df[df['year'] == int(ano_escolhido)]
-    df_filtrado
     
     # Agrupar pelos campos desejados e calcular as agregações
     resumo = df_filtrado.groupby(['week', 'month']).agg(
