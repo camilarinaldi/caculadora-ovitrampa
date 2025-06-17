@@ -1,6 +1,7 @@
 # Importação das bibliotecas
 import pandas as pd
 import requests
+import streamlit as st
 
 # Criar uma função para fazer a extração dos dados de um município e retornar um dataframe
 def get_last_counting_public(municipality, page=1):
