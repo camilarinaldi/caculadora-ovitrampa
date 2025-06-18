@@ -1,0 +1,4 @@
+[global]
+# Define o locale para Português do Brasil com UTF-8
+# Isso garante que a data/hora e strings sejam formatadas corretamente.
+environment = {LANG = "pt_BR.UTF-8", LC_ALL = "pt_BR.UTF-8"}
