@@ -53,11 +53,9 @@ if processar: 
     df_filtrado = df[df['year'] == int(ano_escolhido)]
 
     # Agrupar pelos campos desejados e calcular as agregações
-
     resumo = df_filtrado.groupby(['week', 'month']).agg(
         armadilhas_instaladas=('ovitrap_id', 'count'),
         total_ovos=('eggs', 'sum')
-
     ).reset_index()
 
     dados_ipo = df_filtrado.groupby('week').apply(get_ipo).reset_index()
