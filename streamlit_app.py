@@ -3,8 +3,7 @@ import pandas as pd
 import requests
 import streamlit as st
 import locale
-locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')  # Para Linux/Mac
-# locale.setlocale(locale.LC_TIME, 'Portuguese_Brazil.1252')  # Para Windows
+locale.setlocale(locale.LC_TIME, 'Portuguese_Brazil.1252')
 
 
 # Criar uma função para fazer a extração dos dados de um município e retornar um dataframe
