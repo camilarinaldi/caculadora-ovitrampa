@@ -2,10 +2,6 @@
 import pandas as pd
 import requests
 import streamlit as st
-import locale
-
-locale.setlocale(locale.LC_TIME, 'Portuguese_Brazil.1252')
-
 
 # Criar uma função para fazer a extração dos dados de um município e retornar um dataframe
 def get_last_counting_public(municipality, page=1):
@@ -40,6 +36,21 @@ def get_imo(df):
 
     return imo
 
+month_map = {
+    'January': 'Janeiro',
+    'February': 'Fevereiro',
+    'March': 'Março',
+    'April': 'Abril',
+    'May': 'Maio',
+    'June': 'Junho',
+    'July': 'Julho',
+    'August': 'Agosto',
+    'September': 'Setembro',
+    'October': 'Outubro',
+    'November': 'Novembro',
+    'December': 'Dezembro'
+}
+
 # colocar um input com o municipio
 municipality = st.text_input(label="Digite o nome do município: ", value="Aceguá")
 # Receber input do ano
@@ -53,7 +64,7 @@ if processar:
     df['date'] = pd.to_datetime(df['date'])
     
     # Criar a coluna do mês (pode ser o número ou nome do mês)
-    df['month'] = df['date'].dt.strftime('%B')
+    df['month'] = df['date'].dt.strftime('%B').map(month_map)
     
     # Filtrar o DataFrame pelo ano selecionado
     df_filtrado = df[df['year'] == int(ano_escolhido)]
