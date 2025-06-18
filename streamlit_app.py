@@ -49,7 +49,7 @@ if processar:
     df['date'] = pd.to_datetime(df['date'])
     
     # Criar a coluna do mês (pode ser o número ou nome do mês)
-    df['month'] = df['date'].dt.month  # ou df['date'].dt.strftime('%B') para nome do mês
+    df['month'] = df['date'].dt.strftime('%B')
     
     # Filtrar o DataFrame pelo ano selecionado
     df_filtrado = df[df['year'] == int(ano_escolhido)]
