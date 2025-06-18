@@ -42,6 +42,7 @@ municipality = st.text_input(label="Digite o nome do município: ", value="Acegu
 ano_escolhido = st.text_input("Digite o ano desejado (ex: 2025): ")
 processar = st.button("Processar")
 
+
 if processar: 
 
     df = get_last_counting_public(municipality)
