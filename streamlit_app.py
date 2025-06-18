@@ -2,9 +2,6 @@
 import pandas as pd
 import requests
 import streamlit as st
-import locale
-locale.setlocale(locale.LC_TIME, 'Portuguese_Brazil.1252')
-
 
 # Criar uma função para fazer a extração dos dados de um município e retornar um dataframe
 def get_last_counting_public(municipality, page=1):
