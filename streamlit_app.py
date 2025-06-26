@@ -42,39 +42,37 @@ municipality = st.text_input(label="Digite o nome do município: ", value="Acegu
 ano_escolhido = st.text_input("Digite o ano desejado (ex: 2025): ")
 processar = st.button("Processar")
 
-
 if processar: 
-
-    df = get_last_counting_public(municipality)
+   df = get_last_counting_public(municipality)
     # Supondo que seu DataFrame se chame df
-    df['date'] = pd.to_datetime(df['date'])
+   df['date'] = pd.to_datetime(df['date'])
     # Criar a coluna do mês (pode ser o número ou nome do mês)
-    df['month'] = df['date'].dt.strftime('%B')
+   df['month'] = df['date'].dt.strftime('%B')
     # Filtrar o DataFrame pelo ano selecionado
-    df_filtrado = df[df['year'] == int(ano_escolhido)]
+   df_filtrado = df[df['year'] == int(ano_escolhido)]
 
     # Agrupar pelos campos desejados e calcular as agregações
-    resumo = df_filtrado.groupby(['week', 'month']).agg(
-        armadilhas_instaladas=('ovitrap_id', 'count'),
-        total_ovos=('eggs', 'sum')
-    ).reset_index()
+   resumo = df_filtrado.groupby(['week', 'month']).agg(
+       armadilhas_instaladas=('ovitrap_id', 'count'),
+       total_ovos=('eggs', 'sum')
+   ).reset_index()
 
-    dados_ipo = df_filtrado.groupby('week').apply(get_ipo).reset_index()
-    dados_ipo.columns = ['week', 'ipo']
+   dados_ipo = df_filtrado.groupby('week').apply(get_ipo).reset_index()
+   dados_ipo.columns = ['week', 'ipo']
 
-    dados_ido = df_filtrado.groupby('week').apply(get_ido).reset_index()
-    dados_ido.columns = ['week', 'ido']
+   dados_ido = df_filtrado.groupby('week').apply(get_ido).reset_index()
+   dados_ido.columns = ['week', 'ido']
 
-    dados_imo = df_filtrado.groupby('week').apply(get_imo).reset_index()
-    dados_imo.columns = ['week', 'imo']
+   dados_imo = df_filtrado.groupby('week').apply(get_imo).reset_index()
+   dados_imo.columns = ['week', 'imo']
 
     
 
-    resumo = pd.merge(resumo, dados_ipo, on='week', how='left')
-    resumo = pd.merge(resumo, dados_ido, on='week', how='left')
-    resumo = pd.merge(resumo, dados_imo, on='week', how='left')
+   resumo = pd.merge(resumo, dados_ipo, on='week', how='left')
+   resumo = pd.merge(resumo, dados_ido, on='week', how='left')
+   resumo = pd.merge(resumo, dados_imo, on='week', how='left')
     # Exibir o resultado
 
-    resumo.columns = ['Semana Epidemiológica', 'Ciclo (Mês)', 'Armadilhas Instaladas', 'Total de Ovos', 'IPO', 'IDO', 'IMO']
+   resumo.columns = ['Semana Epidemiológica', 'Ciclo (Mês)', 'Armadilhas Instaladas', 'Total de Ovos', 'IPO', 'IDO', 'IMO']
 
-    resumo
+   resumo
