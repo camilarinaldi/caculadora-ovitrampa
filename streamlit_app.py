@@ -134,32 +134,34 @@ if processar:
 
 ##################################################################
 
-
     # Gerar lista de meses em português na ordem correta
     meses_ordem = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
     
-    # Identificar o primeiro mês com dados (início do monitoramento no ano)
+    # Identificar o primeiro mês com dados
     meses_com_dado = df_filtrado['month'].unique().tolist()
-    meses_com_dado = [m for m in meses_ordem if m in meses_com_dado]  # garantir ordem
+    meses_com_dado = [m for m in meses_ordem if m in meses_com_dado]
     
-    # Obter mês atual
-    mes_atual = datetime.now().month
+    # Mês e ano atual
+    data_atual = datetime.now()
+    ano_atual = data_atual.year
+    mes_atual = data_atual.month
     
     # Criar dicionário com cores
     mapa_celulas = {}
-    
     for idx, mes_nome in enumerate(meses_ordem, start=1):
-        if idx > mes_atual:
-            cor = 'gray'  # mês futuro
+        if int(ano_escolhido) > ano_atual:
+            cor = 'gray'  # ano futuro: todos os meses são futuros
+        elif int(ano_escolhido) == ano_atual and idx > mes_atual:
+            cor = 'gray'  # meses futuros no mesmo ano
         elif mes_nome in meses_com_dado:
             total_mes = df_filtrado[df_filtrado['month'] == mes_nome]['eggs'].sum()
             if total_mes > 0:
-                cor = 'green'  # houve coleta
+                cor = 'green'
             else:
-                cor = 'red'    # não houve coleta
+                cor = 'red'
         else:
-            cor = 'white'     # ainda não havia monitoramento
+            cor = 'white'
         mapa_celulas[mes_nome] = cor
     
     # Montar HTML da tabela
@@ -171,3 +173,10 @@ if processar:
     # Exibir
     st.subheader("Mapa de Coletas no Ano Selecionado")
     st.markdown(html, unsafe_allow_html=True)
+    
+    # Legenda opcional
+    st.markdown("""
+    **Legenda:**  
+    🟩 Coleta realizada  🟥 Sem coleta  ⬜ Ainda não monitorado  ⬛ Mês futuro
+    """)
+
