@@ -45,8 +45,27 @@ if processar:
     # Garantir que a coluna 'date' esteja em formato datetime
     df['date'] = pd.to_datetime(df['date'])
 
-    # Criar a coluna do mês (nome por extenso)
+    # Criar a coluna do mês (nome em inglês)
     df['month'] = df['date'].dt.strftime('%B')
+    
+    # Traduzir para português
+    meses_traducao = {
+        'January': 'Janeiro',
+        'February': 'Fevereiro',
+        'March': 'Março',
+        'April': 'Abril',
+        'May': 'Maio',
+        'June': 'Junho',
+        'July': 'Julho',
+        'August': 'Agosto',
+        'September': 'Setembro',
+        'October': 'Outubro',
+        'November': 'Novembro',
+        'December': 'Dezembro'
+    }
+    
+    df['month'] = df['month'].map(meses_traducao)
+
 
     # Filtrar o DataFrame pelo ano selecionado
     df_filtrado = df[df['year'] == int(ano_escolhido)]
