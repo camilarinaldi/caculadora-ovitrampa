@@ -115,7 +115,7 @@ if processar:
     resumo = pd.concat([resumo, linha_total], ignore_index=True)
 
     # Contagem de linhas da tabela
-    n_linhas = len(resumo)
+    n_linhas = len(resumo) +1
 
     # Exibir resultado
     st.dataframe(resumo, hide_index=True, row_height=39, height=n_linhas*39)
