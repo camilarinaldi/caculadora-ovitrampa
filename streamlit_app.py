@@ -122,6 +122,7 @@ if processar:
                 column_config={
         "IPO": st.column_config.ProgressColumn(
             "IPO",
+            width="small",
             format="%.1f",
             min_value=0,
             max_value=100,
