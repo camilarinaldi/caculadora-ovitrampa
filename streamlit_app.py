@@ -134,34 +134,41 @@ if processar:
 
 ##################################################################
 
-    # Gerar lista de meses em português na ordem correta
+    from datetime import datetime
+
+    # Lista de meses em português, na ordem correta
     meses_ordem = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
     
-    # Identificar o primeiro mês com dados
-    meses_com_dado = df_filtrado['month'].unique().tolist()
-    meses_com_dado = [m for m in meses_ordem if m in meses_com_dado]
-    
-    # Mês e ano atual
+    # Obter mês e ano atual
     data_atual = datetime.now()
     ano_atual = data_atual.year
     mes_atual = data_atual.month
     
-    # Criar dicionário com cores
+    # Obter meses com dados no ano selecionado
+    meses_com_dado = df_filtrado['month'].unique().tolist()
+    meses_com_dado = [m for m in meses_ordem if m in meses_com_dado]
+    
+    # Descobrir o primeiro mês em que houve qualquer tipo de registro (mesmo sem ovos)
+    if not df_filtrado.empty:
+        primeiro_mes_index = df_filtrado['date'].dt.month.min()
+    else:
+        primeiro_mes_index = 13  # valor impossível para garantir "ainda não monitorado"
+    
+    # Construir a cor de cada célula
     mapa_celulas = {}
     for idx, mes_nome in enumerate(meses_ordem, start=1):
         if int(ano_escolhido) > ano_atual:
-            cor = 'gray'  # ano futuro: todos os meses são futuros
+            cor = 'gray'  # ano futuro
         elif int(ano_escolhido) == ano_atual and idx > mes_atual:
-            cor = 'gray'  # meses futuros no mesmo ano
+            cor = 'gray'  # mês futuro no mesmo ano
+        elif idx < primeiro_mes_index:
+            cor = 'white'  # ainda não monitorado
         elif mes_nome in meses_com_dado:
             total_mes = df_filtrado[df_filtrado['month'] == mes_nome]['eggs'].sum()
-            if total_mes > 0:
-                cor = 'green'
-            else:
-                cor = 'red'
+            cor = 'green' if total_mes > 0 else 'red'
         else:
-            cor = 'white'
+            cor = 'red'  # monitoramento iniciado, mas sem coleta
         mapa_celulas[mes_nome] = cor
     
     # Montar HTML da tabela
@@ -174,7 +181,7 @@ if processar:
     st.subheader("Mapa de Coletas no Ano Selecionado")
     st.markdown(html, unsafe_allow_html=True)
     
-    # Legenda opcional
+    # Legenda
     st.markdown("""
     **Legenda:**  
     🟩 Coleta realizada  🟥 Sem coleta  ⬜ Ainda não monitorado  ⬛ Mês futuro
