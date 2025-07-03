@@ -118,4 +118,4 @@ if processar:
     n_linhas = len(resumo)
 
     # Exibir resultado
-    st.dataframe(resumo, hide_index=True, height=n_linhas*40)
+    st.dataframe(resumo, hide_index=True, height=n_linhas*39)
