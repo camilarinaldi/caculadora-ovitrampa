@@ -118,4 +118,11 @@ if processar:
     n_linhas = len(resumo) +1
 
     # Exibir resultado
-    st.dataframe(resumo, hide_index=True, row_height=39, height=n_linhas*39)
+    st.dataframe(resumo, hide_index=True, row_height=39, height=n_linhas*39,
+                column_config={
+        "IPO": st.column_config.ProgressColumn(
+            "IPO",
+            min_value=0,
+            max_value=100,
+        ),
+    },)
