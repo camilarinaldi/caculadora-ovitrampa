@@ -93,26 +93,26 @@ if processar:
 
     # Renomear colunas para exibição
     resumo.columns = ['Semana Epidemiológica', 'Ciclo (Mês)', 'Armadilhas Instaladas', 'Total de Ovos', 'IPO', 'IDO', 'IMO']
-# Calcular totais do ano
-total_armadilhas = df_filtrado['ovitrap_id'].count()
-total_ovos = df_filtrado['eggs'].sum()
-ipo_total = round(((df_filtrado['eggs'] > 0).sum() / len(df_filtrado)) * 100, 1)
-ido_total = round(df_filtrado[df_filtrado['eggs'] > 0]['eggs'].mean(), 1)
-imo_total = round(df_filtrado['eggs'].mean(), 1)
-
-# Criar DataFrame com a linha total
-linha_total = pd.DataFrame([{
-    'Semana Epidemiológica': 'TOTAL',
-    'Ciclo (Mês)': '',
-    'Armadilhas Instaladas': total_armadilhas,
-    'Total de Ovos': total_ovos,
-    'IPO': ipo_total,
-    'IDO': ido_total,
-    'IMO': imo_total
-}])
-
-# Adicionar a linha ao resumo
-resumo = pd.concat([resumo, linha_total], ignore_index=True)
+    # Calcular totais do ano
+    total_armadilhas = df_filtrado['ovitrap_id'].count()
+    total_ovos = df_filtrado['eggs'].sum()
+    ipo_total = round(((df_filtrado['eggs'] > 0).sum() / len(df_filtrado)) * 100, 1)
+    ido_total = round(df_filtrado[df_filtrado['eggs'] > 0]['eggs'].mean(), 1)
+    imo_total = round(df_filtrado['eggs'].mean(), 1)
+    
+    # Criar DataFrame com a linha total
+    linha_total = pd.DataFrame([{
+        'Semana Epidemiológica': 'TOTAL',
+        'Ciclo (Mês)': '',
+        'Armadilhas Instaladas': total_armadilhas,
+        'Total de Ovos': total_ovos,
+        'IPO': ipo_total,
+        'IDO': ido_total,
+        'IMO': imo_total
+    }])
+    
+    # Adicionar a linha ao resumo
+    resumo = pd.concat([resumo, linha_total], ignore_index=True)
 
     # Exibir resultado
     st.dataframe(resumo)
