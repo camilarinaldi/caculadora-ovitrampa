@@ -70,11 +70,6 @@ if processar:
     # Filtrar o DataFrame pelo ano selecionado
     df_filtrado = df[df['year'] == int(ano_escolhido)]
 
-    # Verificar se há dados após o filtro
-    if df_filtrado.empty:
-        st.warning("Este município/ano não consta no banco de dados.")
-        st.stop()
-
     # Agrupar pelos campos desejados e calcular as agregações
     resumo = df_filtrado.groupby(['week', 'month']).agg(
         armadilhas_instaladas=('ovitrap_id', 'count'),
