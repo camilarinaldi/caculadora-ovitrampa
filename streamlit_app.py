@@ -135,39 +135,39 @@ if processar:
 
 from datetime import datetime
 
-# Gerar lista de meses em português na ordem correta
-meses_ordem = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-               'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
-
-# Identificar o primeiro mês com dados (início do monitoramento no ano)
-meses_com_dado = df_filtrado['month'].unique().tolist()
-meses_com_dado = [m for m in meses_ordem if m in meses_com_dado]  # garantir ordem
-
-# Obter mês atual
-mes_atual = datetime.now().month
-
-# Criar dicionário com cores
-mapa_celulas = {}
-
-for idx, mes_nome in enumerate(meses_ordem, start=1):
-    if idx > mes_atual:
-        cor = 'gray'  # mês futuro
-    elif mes_nome in meses_com_dado:
-        total_mes = df_filtrado[df_filtrado['month'] == mes_nome]['eggs'].sum()
-        if total_mes > 0:
-            cor = 'green'  # houve coleta
+    # Gerar lista de meses em português na ordem correta
+    meses_ordem = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+    
+    # Identificar o primeiro mês com dados (início do monitoramento no ano)
+    meses_com_dado = df_filtrado['month'].unique().tolist()
+    meses_com_dado = [m for m in meses_ordem if m in meses_com_dado]  # garantir ordem
+    
+    # Obter mês atual
+    mes_atual = datetime.now().month
+    
+    # Criar dicionário com cores
+    mapa_celulas = {}
+    
+    for idx, mes_nome in enumerate(meses_ordem, start=1):
+        if idx > mes_atual:
+            cor = 'gray'  # mês futuro
+        elif mes_nome in meses_com_dado:
+            total_mes = df_filtrado[df_filtrado['month'] == mes_nome]['eggs'].sum()
+            if total_mes > 0:
+                cor = 'green'  # houve coleta
+            else:
+                cor = 'red'    # não houve coleta
         else:
-            cor = 'red'    # não houve coleta
-    else:
-        cor = 'white'     # ainda não havia monitoramento
-    mapa_celulas[mes_nome] = cor
-
-# Montar HTML da tabela
-html = "<table style='width:100%; text-align:center; border-collapse:collapse;'>"
-html += "<tr>" + "".join([f"<th style='border:1px solid black;'>{mes}</th>" for mes in meses_ordem]) + "</tr>"
-html += "<tr>" + "".join([f"<td style='background-color:{mapa_celulas[mes]}; border:1px solid black; height:40px;'></td>" for mes in meses_ordem]) + "</tr>"
-html += "</table>"
-
-# Exibir
-st.subheader("Mapa de Coletas no Ano Selecionado")
-st.markdown(html, unsafe_allow_html=True)
+            cor = 'white'     # ainda não havia monitoramento
+        mapa_celulas[mes_nome] = cor
+    
+    # Montar HTML da tabela
+    html = "<table style='width:100%; text-align:center; border-collapse:collapse;'>"
+    html += "<tr>" + "".join([f"<th style='border:1px solid black;'>{mes}</th>" for mes in meses_ordem]) + "</tr>"
+    html += "<tr>" + "".join([f"<td style='background-color:{mapa_celulas[mes]}; border:1px solid black; height:40px;'></td>" for mes in meses_ordem]) + "</tr>"
+    html += "</table>"
+    
+    # Exibir
+    st.subheader("Mapa de Coletas no Ano Selecionado")
+    st.markdown(html, unsafe_allow_html=True)
