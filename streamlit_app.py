@@ -115,4 +115,4 @@ if processar:
     resumo = pd.concat([resumo, linha_total], ignore_index=True)
 
     # Exibir resultado
-    st.dataframe(resumo)
+    st.dataframe(resumo, hide_index=True)
