@@ -22,7 +22,8 @@ def get_last_counting_public(municipality, page=1):
 
 # IDO - Índice Densidade de Ovos
 def get_ido(df):
-    ido = round(df[df['eggs'] > 0]['eggs'].mean(), 1)
+    positivos = df[df['eggs'] > 0]
+    ido = round(positivos['eggs'].sum() / len(positivos), 1)
     return ido
 
 # IPO - Índice de Positividade de Ovos
