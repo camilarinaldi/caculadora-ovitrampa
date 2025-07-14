@@ -1078,7 +1078,13 @@ with aba_qualifica:
  # Input com o município e o ano
  with coluna_filtro:
   #municipality = st.text_input(label="Digite o nome do município: ", value="Aceguá")
-  municipality = st.selectbox("Selecione o município", options = sorted(dados['municipality'].unique()))
+  # Filtro de CRS
+  crs_selecionada = st.selectbox("Selecione a CRS", options=sorted(dados['crs'].dropna().unique()))
+  
+  # Filtro de Município com base na CRS
+  municipios_disponiveis = sorted(dados[dados['crs'] == crs_selecionada]['municipality'].unique())
+  municipality = st.selectbox("Selecione o município", options=municipios_disponiveis)
+
   ano_escolhido = st.text_input("Digite o ano desejado (ex: 2025):")
   processar = st.button("Processar")
  
