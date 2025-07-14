@@ -26,7 +26,6 @@ col3.image('logo_cevs (1).png', width=150)
 col2.header('Painel de Monitoramento de Aedes aegypti através de Ovitrampas')
 col1.image('logo_estado (3).png', width=250)
 
-with aba_qualifica:
  texto_qualifica = """
      ### Ficha 5
      Pelo menos 80% dos ciclos mensais de monitoramento realizados (equivalente a 8 meses de monitoramento), conforme os critérios de avaliação.
