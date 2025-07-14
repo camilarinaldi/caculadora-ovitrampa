@@ -1186,7 +1186,7 @@ with aba_qualifica:
  
      # Lista de meses em português, na ordem correta
      meses_ordem = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+                    'Julho', 'Agosto', 'Setembro', 'Outubro']
      
      # Obter mês e ano atual
      data_atual = datetime.now()
