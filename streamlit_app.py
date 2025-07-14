@@ -1109,9 +1109,7 @@ with aba_qualifica:
          'July': 'Julho',
          'August': 'Agosto',
          'September': 'Setembro',
-         'October': 'Outubro',
-         'November': 'Novembro',
-         'December': 'Dezembro'
+         'October': 'Outubro'
      }
      
      df['month'] = df['month'].map(meses_traducao)
