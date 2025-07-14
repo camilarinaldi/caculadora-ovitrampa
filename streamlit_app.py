@@ -1079,12 +1079,21 @@ with aba_qualifica:
  with coluna_filtro:
   #municipality = st.text_input(label="Digite o nome do município: ", value="Aceguá")
   # Filtro de CRS
-  crs_selecionada = st.selectbox("Selecione a CRS", options=sorted(dados['crs'].dropna().unique()))
+  # Obter as colunas únicas de CRS e Município do DataFrame completo
+  crs_lista = sorted(dados[['municipality', 'municipality_code']].merge(df_resultados[['municipio', 'crs']], 
+                                                                        left_on='municipality', 
+                                                                        right_on='municipio', 
+                                                                        how='left')['crs'].dropna().unique())
   
-  # Filtro de Município com base na CRS
-  municipios_disponiveis = sorted(dados[dados['crs'] == crs_selecionada]['municipality'].unique())
-  municipality = st.selectbox("Selecione o município", options=municipios_disponiveis)
-
+  # Filtro de CRS
+  crs_selecionada = st.selectbox("Selecione a CRS", options=crs_lista)
+  
+  # Obter municípios que pertencem à CRS selecionada
+  municipios_da_crs = df_resultados[df_resultados['crs'] == crs_selecionada]['municipio'].unique()
+  municipios_da_crs = sorted([m for m in municipios_da_crs if m in dados['municipality'].unique()])
+  
+  # Filtro de Município
+  municipality = st.selectbox("Selecione o município", options = municipios_da_crs)
   ano_escolhido = st.text_input("Digite o ano desejado (ex: 2025):")
   processar = st.button("Processar")
  
