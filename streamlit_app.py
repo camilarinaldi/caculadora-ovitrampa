@@ -1032,11 +1032,14 @@ with aba_indicador:
      })
 
 with aba_qualifica:
- texto_qualifica = """
-     ### Ficha 5
-     Pelo menos 80% dos ciclos mensais de monitoramento realizados (equivalente a 8 meses de monitoramento), conforme os critérios de avaliação.
- """
- st.markdown(texto_qualifica)
+ coluna_texto, coluna_porcentagem = st.columns([1, 2])
+
+ with coluna_texto:
+  texto_qualifica = """
+      ### Ficha 5
+      Pelo menos 80% dos ciclos mensais de monitoramento realizados (equivalente a 8 meses de monitoramento), conforme os critérios de avaliação.
+  """
+  st.markdown(texto_qualifica)
 
  coluna_filtro, coluna_metrica = st.columns([ 1, 2])
  # Criar uma função para fazer a extração dos dados de um município e retornar um dataframe
