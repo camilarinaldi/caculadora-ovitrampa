@@ -1033,7 +1033,7 @@ with aba_indicador:
 
 with aba_qualifica:
  coluna_texto, coluna_porcentagem = st.columns([1, 2])
-
+ 
  with coluna_texto:
   texto_qualifica = """
       ### Ficha 5
@@ -1041,6 +1041,8 @@ with aba_qualifica:
   """
   st.markdown(texto_qualifica)
 
+ 
+ 
  coluna_filtro, coluna_metrica = st.columns([ 1, 2])
  # Criar uma função para fazer a extração dos dados de um município e retornar um dataframe
  def get_last_counting_public(municipality, page=1):
@@ -1113,8 +1115,11 @@ with aba_qualifica:
      }
      
      df['month'] = df['month'].map(meses_traducao)
- 
- 
+     # Filtrar para manter apenas os meses de Janeiro a Outubro
+     meses_validos = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                      'Julho', 'Agosto', 'Setembro', 'Outubro']
+     df = df[df['month'].isin(meses_validos)]
+
      # Filtrar o DataFrame pelo ano selecionado
      df_filtrado = df[df['year'] == int(ano_escolhido)]
  
