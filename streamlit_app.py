@@ -1080,13 +1080,19 @@ with aba_qualifica:
   #municipality = st.text_input(label="Digite o nome do município: ", value="Aceguá")
   # Filtro de CRS
   # Obter as colunas únicas de CRS e Município do DataFrame completo
-  crs_lista = sorted(dados[['municipality', 'municipality_code']].merge(df_resultados[['municipio', 'crs']], 
-                                                                        left_on='municipality', 
-                                                                        right_on='municipio', 
-                                                                        how='left')['crs'].dropna().unique())
-  
+  crs_lista = sorted(
+        dados[['municipality', 'municipality_code']]
+        .merge(df_resultados[['municipio', 'crs']], 
+               left_on='municipality', 
+               right_on='municipio', 
+               how='left')['crs']
+        .dropna()
+        .unique()
+    )
   # Filtro de CRS
-  crs_selecionada = st.selectbox("Selecione a CRS", options=crs_lista)
+  crs_formatada_dict = {crs: f"{int(crs)}ª CRS" for crs in crs_lista}
+  crs_formatada_selecionada = st.selectbox("Selecione a CRS", options=list(crs_formatada_dict.values()))
+  crs_selecionada = [crs for crs, nome in crs_formatada_dict.items() if nome == crs_formatada_selecionada][0]
   
   # Obter municípios que pertencem à CRS selecionada
   municipios_da_crs = df_resultados[df_resultados['crs'] == crs_selecionada]['municipio'].unique()
