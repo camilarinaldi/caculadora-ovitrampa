@@ -16,7 +16,7 @@ from datetime import datetime
 # Configurações da página
 st.set_page_config(
     page_title="Ovitrampas",
-    page_icon=":bug:",
+    page_icon=":sun_with_face:",
     layout="wide",
     initial_sidebar_state='collapsed'
 ) 
