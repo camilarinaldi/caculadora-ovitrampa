@@ -1104,7 +1104,7 @@ with aba_qualifica:
    anos_disponiveis = sorted(anos_disponiveis)
    ano_escolhido = st.selectbox("Selecione o ano disponível com coletas", options=anos_disponiveis)
     # Botão
-    processar = st.button("Processar")
+   processar = st.button("Processar")
   
  if processar:
      #df = get_last_counting_public(municipality)
