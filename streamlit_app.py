@@ -1086,9 +1086,16 @@ with aba_qualifica:
     # Obter a CRS numérica selecionada
     crs_selecionada = [crs for crs, nome in crs_formatada_dict.items() if nome == crs_formatada_selecionada][0]
     # Obter municípios da CRS selecionada no df_resultados
-    municipios_crs_resultados = df_resultados[df_resultados['crs'] == crs_selecionada]['municipio'].dropna().unique()
-    # Mostrar todos os municípios da CRS selecionada, mesmo sem dados ainda
-    municipios_validos = sorted(municipios_crs_resultados)
+    # Forçando o tipo da CRS para garantir igualdade
+    df_filtrado_crs = df_resultados[df_resultados['crs'].astype('Int64') == crs_selecionada]
+    
+    # Verificando se há municípios
+    if df_filtrado_crs.empty:
+        st.warning(f"Nenhum município encontrado para a {crs_selecionada}ª CRS.")
+        municipios_validos = []
+    else:
+        municipios_validos = sorted(df_filtrado_crs['municipio'].dropna().unique())
+
     # SelectBox para município
     municipality = st.selectbox("Selecione o município", options=municipios_validos)
     # Filtro de ano
