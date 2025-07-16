@@ -1095,14 +1095,12 @@ with aba_qualifica:
     dados_municipio = dados[dados['municipality'] == municipality]
     
     # Filtra apenas os anos com coletas (eggs > 0)
-    anos_disponiveis = dados_municipio[dados_municipio['eggs'] > 0]['year'].dropna().unique()
-    anos_disponiveis = sorted(anos_disponiveis)
-    ano_escolhido = st.selectbox("Selecione o ano disponível com coletas", options=anos_disponiveis)
- 
+    # Filtro de ano
+    ano_escolhido = st.text_input("Digite o ano desejado (ex: 2025):")
     # Botão
     processar = st.button("Processar")
   
- if processar and ano_escolhido:
+ if processar:
      #df = get_last_counting_public(municipality)
      df_pre_filtro = dados[['counting_id', 'date', 'date_collect', 'eggs', 'latitude', 'longitude',
        'municipality', 'municipality_code', 'ovitrap_id', 'ovitrap_website_id',
