@@ -1079,26 +1079,25 @@ with aba_qualifica:
  with coluna_filtro:
   #municipality = st.text_input(label="Digite o nome do município: ", value="Aceguá")
   # Filtro de CRS
-  # Obter as colunas únicas de CRS e Município do DataFrame completo
-  crs_lista = sorted(
-        dados[['municipality', 'municipality_code']]
-        .merge(df_resultados[['municipio', 'crs']], 
-               left_on='municipality', 
-               right_on='municipio', 
-               how='left')['crs']
-        .dropna()
-        .unique()
-    )
-  # Filtro de CRS
-  # Obter lista de CRS diretamente do df_resultados (sem depender do merge com dados)
-  crs_unicas = sorted(df_resultados['crs'].dropna().astype(int).unique())
-  crs_formatada_dict = {crs: f"{crs}ª CRS" for crs in crs_unicas}
-  crs_formatada_dict['Todas'] = 'Todas'
-
-  crs_formatada_selecionada = st.selectbox("Selecione a CRS", options=list(crs_formatada_dict.values()))
-  # Obter municípios que pertencem à CRS selecionada
-  municipios_da_crs = df_resultados[df_resultados['crs'] == crs_selecionada]['municipio'].unique()
-  municipios_da_crs = sorted([m for m in municipios_da_crs if m in dados['municipality'].unique()])
+  ano = st.selectbox('Selecione o ano', options=sorted(dados['year'].unique()), index=3)
+    # Filtrar por um ou outro
+  filtro_regional = st.radio('Filtro regional', options=['Região de saúde','CRS'], horizontal=True)
+  dicionario_filtro_regional = {'Região de saúde':'regiao_saude', 'CRS':'CRS'}
+  coluna_selecionada = dicionario_filtro_regional[filtro_regional]
+  lista_regioes_saude = sorted(dados[dicionario_filtro_regional[filtro_regional]].dropna().astype(str).unique())
+  
+  lista_regioes_saude.append('Todas')
+  regiao_saude = st.selectbox(f'Selecione a {filtro_regional}', options=lista_regioes_saude, index=len(lista_regioes_saude)-1)
+    
+    
+  lista_municipios = sorted(dados[(dados['year']==ano)&(dados[coluna_selecionada]==regiao_saude)]['municipality'].unique())
+  lista_municipios.append('Todos')
+  municipio = st.selectbox('Selecione o município', options=lista_municipios, index=len(lista_municipios)-1)
+   
+  if municipio != 'Todos':
+   mes = st.selectbox('Selecione o mês', options=sorted(dados[(dados['municipality']==municipio)&(dados['year']==ano)]['mes'].unique()))
+   semana_epidemiologica = dados[(dados['municipality']==municipio)&(dados['year']==ano)&(dados['mes']==mes)]['week'].values[0]
+   st.write(f'Semana epidemiológica {semana_epidemiologica}')
   
   # Filtro de Município
   municipality = st.selectbox("Selecione o município", options = municipios_da_crs)
