@@ -1096,15 +1096,15 @@ with aba_qualifica:
     
     # Filtra apenas os anos com coletas (eggs > 0)
     # Filtro de ano
-   # Filtra os dados do município
-   dados_municipio = dados[dados['municipality'] == municipality]
-   
-   # Filtra apenas os anos com coletas (eggs > 0)
-   anos_disponiveis = dados_municipio[dados_municipio['eggs'] > 0]['year'].dropna().unique()
-   anos_disponiveis = sorted(anos_disponiveis)
-   ano_escolhido = st.selectbox("Selecione o ano disponível com coletas", options=anos_disponiveis)
-    # Botão
-   processar = st.button("Processar")
+    # Filtra os dados do município
+    dados_municipio = dados[dados['municipality'] == municipality]
+    
+    # Filtra apenas os anos com coletas (eggs > 0)
+    anos_disponiveis = dados_municipio[dados_municipio['eggs'] > 0]['year'].dropna().unique()
+    anos_disponiveis = sorted(anos_disponiveis)
+    ano_escolhido = st.selectbox("Selecione o ano disponível com coletas", options=anos_disponiveis)
+     # Botão
+    processar = st.button("Processar")
   
  if processar:
      #df = get_last_counting_public(municipality)
