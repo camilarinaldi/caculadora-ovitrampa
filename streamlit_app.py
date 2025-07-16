@@ -1087,22 +1087,18 @@ with aba_qualifica:
     crs_selecionada = [crs for crs, nome in crs_formatada_dict.items() if nome == crs_formatada_selecionada][0]
     # Obter municípios da CRS selecionada no df_resultados
     # Forçando o tipo da CRS para garantir igualdade
-    df_filtrado_crs = df_resultados[df_resultados['crs'].astype('Int64') == crs_selecionada]
-    
-    # Verificando se há municípios
-    if df_filtrado_crs.empty:
-        st.warning(f"Nenhum município encontrado para a {crs_selecionada}ª CRS.")
-        municipios_validos = []
-    else:
-        municipios_validos = sorted(df_filtrado_crs['municipio'].dropna().unique())
-
+    municipios_crs_resultados = df_resultados[df_resultados['crs'] == crs_selecionada]['municipio'].dropna().unique()
+    municipios_validos = sorted(municipios_crs_resultados)
     # SelectBox para município
     municipality = st.selectbox("Selecione o município", options=municipios_validos)
     # Filtro de ano
     ano_escolhido = st.text_input("Digite o ano desejado (ex: 2025):")
     # Botão
     processar = st.button("Processar")
- 
+st.write(f"CRS selecionada: {crs_selecionada}")
+st.write("Municípios encontrados:", municipios_validos)
+st.write("df_resultados CRS únicos:", df_resultados['crs'].unique())
+
  if processar:
      #df = get_last_counting_public(municipality)
      df_pre_filtro = dados[['counting_id', 'date', 'date_collect', 'eggs', 'latitude', 'longitude',
