@@ -1077,31 +1077,32 @@ with aba_qualifica:
  
  # Input com o município e o ano
  with coluna_filtro:
-  #municipality = st.text_input(label="Digite o nome do município: ", value="Aceguá")
-  # Filtro de CRS
-  # Obter as colunas únicas de CRS e Município do DataFrame completo
-  crs_lista = sorted(
-        dados[['municipality', 'municipality_code']]
-        .merge(df_resultados[['municipio', 'crs']], 
-               left_on='municipality', 
-               right_on='municipio', 
-               how='left')['crs']
-        .dropna()
-        .unique()
-    )
-  # Filtro de CRS
-  crs_formatada_dict = {crs: f"{int(crs)}ª CRS" for crs in crs_lista}
-  crs_formatada_selecionada = st.selectbox("Selecione a CRS", options=list(crs_formatada_dict.values()))
-  crs_selecionada = [crs for crs, nome in crs_formatada_dict.items() if nome == crs_formatada_selecionada][0]
-  
-  # Obter municípios que pertencem à CRS selecionada
-  municipios_da_crs = df_resultados[df_resultados['crs'] == crs_selecionada]['municipio'].unique()
-  municipios_da_crs = sorted([m for m in municipios_da_crs if m in dados['municipality'].unique()])
-  
-  # Filtro de Município
-  municipality = st.selectbox("Selecione o município", options = municipios_da_crs)
-  ano_escolhido = st.text_input("Digite o ano desejado (ex: 2025):")
-  processar = st.button("Processar")
+    # Obter todas as CRS únicas existentes no df_resultados
+    crs_lista = sorted(df_resultados['crs'].dropna().astype(int).unique())
+
+    # Criar dicionário formatado: 1 → '1ª CRS'
+    crs_formatada_dict = {crs: f"{crs}ª CRS" for crs in crs_lista}
+    
+    # Criar SelectBox com nomes formatados (1ª CRS, 2ª CRS, ...)
+    crs_formatada_selecionada = st.selectbox("Selecione a CRS", options=list(crs_formatada_dict.values()))
+
+    # Obter a CRS numérica selecionada
+    crs_selecionada = [crs for crs, nome in crs_formatada_dict.items() if nome == crs_formatada_selecionada][0]
+
+    # Obter municípios da CRS selecionada no df_resultados
+    municipios_crs_resultados = df_resultados[df_resultados['crs'] == crs_selecionada]['municipio'].dropna().unique()
+
+    # Cruzar com os que estão presentes no DataFrame de dados
+    municipios_validos = sorted([m for m in municipios_crs_resultados if m in dados['municipality'].unique()])
+
+    # SelectBox para município
+    municipality = st.selectbox("Selecione o município", options=municipios_validos)
+
+    # Filtro de ano
+    ano_escolhido = st.text_input("Digite o ano desejado (ex: 2025):")
+
+    # Botão
+    processar = st.button("Processar")
  
  if processar:
      #df = get_last_counting_public(municipality)
