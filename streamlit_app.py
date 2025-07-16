@@ -1102,7 +1102,7 @@ with aba_qualifica:
     # Botão
     processar = st.button("Processar")
   
- if processar:
+ if processar and ano_escolhido:
      #df = get_last_counting_public(municipality)
      df_pre_filtro = dados[['counting_id', 'date', 'date_collect', 'eggs', 'latitude', 'longitude',
        'municipality', 'municipality_code', 'ovitrap_id', 'ovitrap_website_id',
