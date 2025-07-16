@@ -1090,10 +1090,12 @@ with aba_qualifica:
         .unique()
     )
   # Filtro de CRS
-  crs_formatada_dict = {crs: f"{int(crs)}ª CRS" for crs in crs_lista}
+  # Obter lista de CRS diretamente do df_resultados (sem depender do merge com dados)
+  crs_unicas = sorted(df_resultados['crs'].dropna().astype(int).unique())
+  crs_formatada_dict = {crs: f"{crs}ª CRS" for crs in crs_unicas}
+  crs_formatada_dict['Todas'] = 'Todas'
+
   crs_formatada_selecionada = st.selectbox("Selecione a CRS", options=list(crs_formatada_dict.values()))
-  crs_selecionada = [crs for crs, nome in crs_formatada_dict.items() if nome == crs_formatada_selecionada][0]
-  
   # Obter municípios que pertencem à CRS selecionada
   municipios_da_crs = df_resultados[df_resultados['crs'] == crs_selecionada]['municipio'].unique()
   municipios_da_crs = sorted([m for m in municipios_da_crs if m in dados['municipality'].unique()])
