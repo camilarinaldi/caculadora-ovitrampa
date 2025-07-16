@@ -22,9 +22,9 @@ st.set_page_config(
 ) 
 col1, col2, col3 = st.columns([1,4,1])
 
-col3.image('logo_cevs (1).png', width=150)
-col2.header('Painel de Monitoramento de Aedes aegypti através de Ovitrampas')
-col1.image('logo_estado (3).png', width=250)
+#col3.image('logo_cevs (1).png', width=150)
+#col2.header('Painel de Monitoramento de Aedes aegypti através de Ovitrampas')
+#col1.image('logo_estado (3).png', width=250)
 
 @st.cache_data
 def buscar_dados(ttl=60):
