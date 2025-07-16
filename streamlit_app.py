@@ -1102,14 +1102,7 @@ with aba_qualifica:
    # Filtra apenas os anos com coletas (eggs > 0)
    anos_disponiveis = dados_municipio[dados_municipio['eggs'] > 0]['year'].dropna().unique()
    anos_disponiveis = sorted(anos_disponiveis)
-   
-   # Verifica se há anos com coleta
-   if not anos_disponiveis:
-       st.warning("Este município não possui coletas registradas.")
-       ano_escolhido = None
-   else:
-       ano_escolhido = st.selectbox("Selecione o ano disponível com coletas", options=anos_disponiveis)
-
+   ano_escolhido = st.selectbox("Selecione o ano disponível com coletas", options=anos_disponiveis)
     # Botão
     processar = st.button("Processar")
   
