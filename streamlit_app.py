@@ -1123,7 +1123,7 @@ with aba_qualifica:
         st.warning("Não há dados antes das últimas 9 semanas epidemiológicas para este município.")
         st.stop()
     
-        processar = st.button("Processar")
+    processar = st.button("Processar")
       
  if processar:
      #df = get_last_counting_public(municipality)
