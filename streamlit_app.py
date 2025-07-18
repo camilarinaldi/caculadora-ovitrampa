@@ -1041,8 +1041,6 @@ with aba_qualifica:
   """
   st.markdown(texto_qualifica)
 
- 
- 
  coluna_filtro, coluna_metrica = st.columns([ 1, 2])
  # Criar uma função para fazer a extração dos dados de um município e retornar um dataframe
  def get_last_counting_public(municipality, page=1):
@@ -1120,7 +1118,7 @@ with aba_qualifica:
     
     # Cria o selectbox com os anos filtrados
     if anos_disponiveis:
-        ano = st.selectbox('Selecione o ano', options=anos_disponiveis, index=len(anos_disponiveis))
+        ano = st.selectbox('Selecione o ano', options=anos_disponiveis, index=len(anos_disponiveis)-1)
     else:
         st.warning("Não há dados antes das últimas 9 semanas epidemiológicas para este município.")
         st.stop()
