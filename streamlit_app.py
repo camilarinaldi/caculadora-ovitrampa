@@ -1101,7 +1101,7 @@ with aba_qualifica:
        'state_code', 'state_name', 'time', 'week', 'year']]
 
     # Filtrando o municipio e o ano
-     filtro = (df_pre_filtro['municipality'] == municipio) & (df_pre_filtro['year'] == int(ano))
+     filtro = (df_pre_filtro['municipality'] == municipio) & (df_pre_filtro['year'] == int(ano_escolhido))
      df = df_pre_filtro[filtro]
      
      # Garantir que a coluna 'date' esteja em formato datetime
