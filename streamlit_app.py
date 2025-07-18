@@ -1091,41 +1091,7 @@ with aba_qualifica:
     lista_municipios = sorted(dados_filtrados_crs['municipality'].dropna().unique())
     lista_municipios.append('Todos')
     municipio = st.selectbox('Selecione o município', options=lista_municipios, index=len(lista_municipios) - 1)
-
-    # Filtro por ano, condicionado à CRS + Município
-    if municipio != 'Todos':
-        dados_filtrados_municipio = dados_filtrados_crs[dados_filtrados_crs['municipality'] == municipio]
-    else:
-        dados_filtrados_municipio = dados_filtrados_crs
-
-    # Calcula a semana epidemiológica, se ainda não estiver na base
-    if 'week' not in dados.columns:
-        dados['week'] = dados['date'].dt.isocalendar().week
-    
-    # Filtra os dados do município e CRS selecionados
-    dados_municipio = dados[(dados['municipality'] == municipio) &
-                            (dados['CRS'] == crs_selecionada)]
-    
-    # Agrupa por ano e filtra os que têm pelo menos uma coleta antes da semana 44
-    # Calcula a última semana registrada de cada ano
-    max_semanas = dados_municipio.groupby('year')['week'].max().reset_index()
-    max_semanas['semana_limite'] = max_semanas['week'] - 9  # define o corte das últimas 9 semanas
-    
-    # Junta a semana limite com os dados do município
-    dados_com_limite = dados_municipio.merge(max_semanas[['year', 'semana_limite']], on='year', how='left')
-    
-    # Mantém apenas coletas que ocorreram ANTES da semana limite
-    dados_validos = dados_com_limite[dados_com_limite['week'] <= dados_com_limite['semana_limite']]
-    
-    # Define os anos que ainda têm dados válidos
-    anos_disponiveis = sorted(dados_validos['year'].unique())
-    # Cria o selectbox com os anos filtrados
-    if anos_disponiveis:
-        ano = st.selectbox('Selecione o ano com coletas', options=anos_disponiveis, index=len(anos_disponiveis)-1)
-    else:
-        st.warning("Não há dados antes das últimas 9 semanas epidemiológicas para este município.")
-        st.stop()
-    
+    ano_escolhido = st.selectbox('Selecione o ano disponível', options=sorted(dados['year'].unique()), index=3)
     processar = st.button("Processar")
       
  if processar:
@@ -1166,19 +1132,6 @@ with aba_qualifica:
 
      # Filtrar o DataFrame pelo ano selecionado
      df_filtrado = df[df['year'] == int(ano)]
-     # Remove semanas dos meses de novembro (11) e dezembro (12)
-     # Remover as 9 últimas semanas epidemiológicas de cada ano
-     semanas_para_remover = []
-     
-     for ano in df_filtrado['year'].unique():
-         semanas_do_ano = sorted(df_filtrado[df_filtrado['year'] == ano]['week'].unique())
-         ultimas_9_semanas = semanas_do_ano[-9:]
-         for semana in ultimas_9_semanas:
-             semanas_para_remover.append((ano, semana))
-     
-     # Aplicar o filtro
-     df_filtrado = df_filtrado[~df_filtrado[['year', 'week']].apply(tuple, axis=1).isin(semanas_para_remover)]
-
   
      # Agrupar pelos campos desejados e calcular as agregações
      resumo = df_filtrado.groupby(['week', 'month']).agg(
