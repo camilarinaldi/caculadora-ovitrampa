@@ -1111,7 +1111,7 @@ with aba_qualifica:
        'state_code', 'state_name', 'time', 'week', 'year']]
 
     # Filtrando o municipio e o ano
-     filtro = (df_pre_filtro['municipality'] == municipality)&(df_pre_filtro['year'] == int(ano_escolhido))
+     filtro = (df_pre_filtro['municipality'] == municipality)&(df_pre_filtro['year'] == int(ano))
      df = df_pre_filtro[filtro]
      
      # Garantir que a coluna 'date' esteja em formato datetime
@@ -1141,7 +1141,7 @@ with aba_qualifica:
      df = df[df['month'].isin(meses_validos)]
 
      # Filtrar o DataFrame pelo ano selecionado
-     df_filtrado = df[df['year'] == int(ano_escolhido)]
+     df_filtrado = df[df['year'] == int(ano)]
  
      # Agrupar pelos campos desejados e calcular as agregações
      resumo = df_filtrado.groupby(['week', 'month']).agg(
@@ -1226,9 +1226,9 @@ with aba_qualifica:
      # Construir a cor de cada célula
      mapa_celulas = {}
      for idx, mes_nome in enumerate(meses_ordem, start=1):
-         if int(ano_escolhido) > ano_atual:
+         if int(ano) > ano_atual:
              cor = 'gray'  # ano futuro
-         elif int(ano_escolhido) == ano_atual and idx > mes_atual:
+         elif int(ano) == ano_atual and idx > mes_atual:
              cor = 'gray'  # mês futuro no mesmo ano
          elif idx < primeiro_mes_index:
              cor = 'white'  # ainda não monitorado
