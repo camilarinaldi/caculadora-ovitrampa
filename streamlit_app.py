@@ -1213,9 +1213,9 @@ with aba_qualifica:
      # Construir a cor de cada célula
      mapa_celulas = {}
      for idx, mes_nome in enumerate(meses_ordem, start=1):
-         if int(ano) > ano_atual:
+         if int(ano_escolhido) > ano_atual:
              cor = 'gray'  # ano futuro
-         elif int(ano) == ano_atual and idx > mes_atual:
+         elif int(ano_escolhido) == ano_atual and idx > mes_atual:
              cor = 'gray'  # mês futuro no mesmo ano
          elif idx < primeiro_mes_index:
              cor = 'white'  # ainda não monitorado
