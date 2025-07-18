@@ -1102,6 +1102,7 @@ with aba_qualifica:
 
     anos_disponiveis = sorted(dados_filtrados_municipio['year'].dropna().unique())
     ano = st.selectbox('Selecione o ano', options=anos_disponiveis)
+    processar = st.button("Processar")
   
  if processar:
      #df = get_last_counting_public(municipality)
