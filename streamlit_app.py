@@ -1142,19 +1142,16 @@ with aba_qualifica:
 
      # Filtrar o DataFrame pelo ano selecionado
      df_filtrado = df[df['year'] == int(ano)]
- 
+     # Remove semanas dos meses de novembro (11) e dezembro (12)
+     df_filtrado = df_filtrado[~df_filtrado['date'].dt.month.isin([11, 12])]
+  
      # Agrupar pelos campos desejados e calcular as agregações
      resumo = df_filtrado.groupby(['week', 'month']).agg(
          armadilhas_instaladas=('ovitrap_id', 'count'),
          total_ovos=('eggs', 'sum')
      ).reset_index()
-
-   
  
      # Calcular os índices
-     # Remove semanas dos meses de novembro (11) e dezembro (12)
-     df_filtrado = df_filtrado[~df_filtrado['date'].dt.month.isin([11, 12])]
-     
      # Agora calcula normalmente
      dados_ipo = df_filtrado.groupby('week').apply(get_ipo).reset_index()
      dados_ipo.columns = ['week', 'ipo']
