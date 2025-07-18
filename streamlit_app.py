@@ -1107,15 +1107,18 @@ with aba_qualifica:
                             (dados['CRS'] == crs_selecionada)]
     
     # Agrupa por ano e filtra os que têm pelo menos uma coleta antes da semana 44
-    anos_validos = []
-    for ano_ in dados_municipio['year'].unique():
-        semanas_ano = dados_municipio[dados_municipio['year'] == ano_]['week']
-        if (semanas_ano < 44).any():  # Tem pelo menos uma coleta antes da semana 44
-            anos_validos.append(ano_)
+    # Calcula a última semana registrada de cada ano
+    max_semanas = dados_municipio.groupby('year')['week'].max().reset_index()
+    max_semanas['semana_limite'] = max_semanas['week'] - 9  # define o corte das últimas 9 semanas
     
-    # Ordena os anos válidos
-    anos_disponiveis = sorted(anos_validos)
+    # Junta a semana limite com os dados do município
+    dados_com_limite = dados_municipio.merge(max_semanas[['year', 'semana_limite']], on='year', how='left')
     
+    # Mantém apenas coletas que ocorreram ANTES da semana limite
+    dados_validos = dados_com_limite[dados_com_limite['week'] <= dados_com_limite['semana_limite']]
+    
+    # Define os anos que ainda têm dados válidos
+    anos_disponiveis = sorted(dados_validos['year'].unique())
     # Cria o selectbox com os anos filtrados
     if anos_disponiveis:
         ano = st.selectbox('Selecione o ano com coletas', options=anos_disponiveis, index=len(anos_disponiveis)-1)
