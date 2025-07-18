@@ -1143,7 +1143,18 @@ with aba_qualifica:
      # Filtrar o DataFrame pelo ano selecionado
      df_filtrado = df[df['year'] == int(ano)]
      # Remove semanas dos meses de novembro (11) e dezembro (12)
-     df_filtrado = df_filtrado[~df_filtrado['date'].dt.month.isin([11, 12])]
+     # Remover as 9 últimas semanas epidemiológicas de cada ano
+     semanas_para_remover = []
+     
+     for ano in df_filtrado['year'].unique():
+         semanas_do_ano = sorted(df_filtrado[df_filtrado['year'] == ano]['week'].unique())
+         ultimas_9_semanas = semanas_do_ano[-9:]
+         for semana in ultimas_9_semanas:
+             semanas_para_remover.append((ano, semana))
+     
+     # Aplicar o filtro
+     df_filtrado = df_filtrado[~df_filtrado[['year', 'week']].apply(tuple, axis=1).isin(semanas_para_remover)]
+
   
      # Agrupar pelos campos desejados e calcular as agregações
      resumo = df_filtrado.groupby(['week', 'month']).agg(
