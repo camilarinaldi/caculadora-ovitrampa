@@ -1118,7 +1118,7 @@ with aba_qualifica:
     
     # Cria o selectbox com os anos filtrados
     if anos_disponiveis:
-        ano = st.selectbox('Selecione o ano', options=anos_disponiveis, index=len(anos_disponiveis)-1)
+        ano = st.selectbox('Selecione o ano com coletas', options=anos_disponiveis, index=len(anos_disponiveis)-1)
     else:
         st.warning("Não há dados antes das últimas 9 semanas epidemiológicas para este município.")
         st.stop()
