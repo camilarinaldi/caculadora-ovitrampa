@@ -1077,34 +1077,31 @@ with aba_qualifica:
  
  # Input com o município e o ano
  with coluna_filtro:
-    # Obter todas as CRS únicas existentes no df_resultados
-    crs_lista = sorted(df_resultados['crs'].dropna().astype(int).unique())
-    # Criar dicionário formatado: 1 → '1ª CRS'
-    crs_formatada_dict = {crs: f"{crs}ª CRS" for crs in crs_lista}
-    # Criar SelectBox com nomes formatados (1ª CRS, 2ª CRS, ...)
-    crs_formatada_selecionada = st.selectbox("Selecione a CRS", options=list(crs_formatada_dict.values()))
-    # Obter a CRS numérica selecionada
-    crs_selecionada = [crs for crs, nome in crs_formatada_dict.items() if nome == crs_formatada_selecionada][0]
-    # Obter municípios da CRS selecionada no df_resultados
-    # Forçando o tipo da CRS para garantir igualdade
-    municipios_crs_resultados = df_resultados[df_resultados['crs'] == crs_selecionada]['municipio'].dropna().unique()
-    municipios_validos = sorted(municipios_crs_resultados)
-    # SelectBox para município
-    municipality = st.selectbox("Selecione o município", options=municipios_validos)
-    # Filtra os dados do município
-    dados_municipio = dados[dados['municipality'] == municipality]
-    
-    # Filtra apenas os anos com coletas (eggs > 0)
-    # Filtro de ano
-    # Filtra os dados do município
-    dados_municipio = dados[dados['municipality'] == municipality]
-    
-    # Filtra apenas os anos com coletas (eggs > 0)
-    anos_disponiveis = dados_municipio[dados_municipio['eggs'] > 0]['year'].dropna().unique()
-    anos_disponiveis = sorted(anos_disponiveis)
-    ano_escolhido = st.selectbox("Selecione o ano disponível com coletas", options=anos_disponiveis)
-     # Botão
-    processar = st.button("Processar")
+    st.markdown("### Filtros")
+
+    # Filtro por CRS
+    lista_crs = sorted(dados['CRS'].dropna().astype(str).unique())
+    lista_crs.append('Todas')
+    crs_selecionada = st.selectbox('Selecione a CRS', options=lista_crs, index=len(lista_crs) - 1)
+
+    # Filtro por município, condicionado à CRS
+    if crs_selecionada != 'Todas':
+        dados_filtrados_crs = dados[dados['CRS'] == crs_selecionada]
+    else:
+        dados_filtrados_crs = dados.copy()
+
+    lista_municipios = sorted(dados_filtrados_crs['municipality'].dropna().unique())
+    lista_municipios.append('Todos')
+    municipio = st.selectbox('Selecione o município', options=lista_municipios, index=len(lista_municipios) - 1)
+
+    # Filtro por ano, condicionado à CRS + Município
+    if municipio != 'Todos':
+        dados_filtrados_municipio = dados_filtrados_crs[dados_filtrados_crs['municipality'] == municipio]
+    else:
+        dados_filtrados_municipio = dados_filtrados_crs
+
+    anos_disponiveis = sorted(dados_filtrados_municipio['year'].dropna().unique())
+    ano = st.selectbox('Selecione o ano', options=anos_disponiveis)
   
  if processar:
      #df = get_last_counting_public(municipality)
