@@ -1121,15 +1121,13 @@ with aba_qualifica:
          'July': 'Julho',
          'August': 'Agosto',
          'September': 'Setembro',
-         'October': 'Outubro'
+         'October': 'Outubro',
+         'November': 'Novembro',
+         'December': 'Dezembro'
      }
      
      df['month'] = df['month'].map(meses_traducao)
-     # Filtrar para manter apenas os meses de Janeiro a Outubro
-     meses_validos = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                      'Julho', 'Agosto', 'Setembro', 'Outubro']
-     df = df[df['month'].isin(meses_validos)]
-
+     
      # Filtrar o DataFrame pelo ano selecionado
      df_filtrado = df[df['year'] == int(ano_escolhido)]
   
