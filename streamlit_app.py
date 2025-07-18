@@ -1100,10 +1100,33 @@ with aba_qualifica:
     else:
         dados_filtrados_municipio = dados_filtrados_crs
 
-    anos_disponiveis = sorted(dados_filtrados_municipio['year'].dropna().unique())
-    ano = st.selectbox('Selecione o ano', options=anos_disponiveis)
-    processar = st.button("Processar")
-  
+    # Calcula a semana epidemiológica, se ainda não estiver na base
+    if 'week' not in dados.columns:
+        dados['week'] = dados['date'].dt.isocalendar().week
+    
+    # Filtra os dados do município e CRS selecionados
+    dados_municipio = dados[(dados['municipality'] == municipio) &
+                            (dados['CRS'] == crs_selecionada)]
+    
+    # Agrupa por ano e filtra os que têm pelo menos uma coleta antes da semana 44
+    anos_validos = []
+    for ano_ in dados_municipio['year'].unique():
+        semanas_ano = dados_municipio[dados_municipio['year'] == ano_]['week']
+        if (semanas_ano < 44).any():  # Tem pelo menos uma coleta antes da semana 44
+            anos_validos.append(ano_)
+    
+    # Ordena os anos válidos
+    anos_disponiveis = sorted(anos_validos)
+    
+    # Cria o selectbox com os anos filtrados
+    if anos_disponiveis:
+        ano = st.selectbox('Selecione o ano', options=anos_disponiveis, index=len(anos_disponiveis)-1)
+    else:
+        st.warning("Não há dados antes das últimas 9 semanas epidemiológicas para este município.")
+        st.stop()
+    
+        processar = st.button("Processar")
+      
  if processar:
      #df = get_last_counting_public(municipality)
      df_pre_filtro = dados[['counting_id', 'date', 'date_collect', 'eggs', 'latitude', 'longitude',
