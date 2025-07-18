@@ -1152,6 +1152,10 @@ with aba_qualifica:
    
  
      # Calcular os índices
+     # Remove semanas dos meses de novembro (11) e dezembro (12)
+     df_filtrado = df_filtrado[~df_filtrado['date'].dt.month.isin([11, 12])]
+     
+     # Agora calcula normalmente
      dados_ipo = df_filtrado.groupby('week').apply(get_ipo).reset_index()
      dados_ipo.columns = ['week', 'ipo']
  
