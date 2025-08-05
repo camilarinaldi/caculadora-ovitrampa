@@ -1091,8 +1091,15 @@ with aba_qualifica:
     lista_municipios = sorted(dados_filtrados_crs['municipality'].dropna().unique())
     lista_municipios.append('Todos')
     municipio = st.selectbox('Selecione o município', options=lista_municipios, index=len(lista_municipios) - 1)
-    ano_escolhido = st.selectbox('Selecione o ano disponível', options=sorted(dados['year'].unique()), index=3)
+
+    if municipio != 'Todos':
+        anos_disponiveis = sorted(dados_filtrados_crs[dados_filtrados_crs['municipality'] == municipio]['year'].unique())
+    else:
+        anos_disponiveis = sorted(dados_filtrados_crs['year'].unique())
+
+    ano_escolhido = st.selectbox('Selecione o ano disponível', options=anos_disponiveis)
     processar = st.button("Processar")
+
       
  if processar:
      #df = get_last_counting_public(municipality)
