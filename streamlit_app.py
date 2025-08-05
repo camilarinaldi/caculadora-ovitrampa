@@ -1247,7 +1247,7 @@ with aba_qualifica:
         # Legenda
         st.markdown("""
         **Legenda:**  
-        <span style='display:inline-block; width:20px; height:20px; background-color:#006400; border:1px solid black;'></span> Coleta realizada  
+        <span style='display:inline-block; width:20px; height:20px; background-color:green; border:1px solid black;'></span> Coleta realizada  
         <span style='display:inline-block; width:20px; height:20px; background-color:red; border:1px solid black;'></span> Sem coleta  
         <span style='display:inline-block; width:20px; height:20px; background-color:white; border:1px solid black;'></span> Ainda não monitorado  
         <span style='display:inline-block; width:20px; height:20px; background-color:gray; border:1px solid black;'></span> Mês futuro
