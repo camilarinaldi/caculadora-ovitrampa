@@ -1241,6 +1241,15 @@ with aba_qualifica:
      
      # Exibir
      with coluna_metrica:
+        # Percentual de meses trabalhados de jan a out
+        meses_trabalhados = len(meses_com_dado)
+        percentual_trabalhado = round((meses_trabalhados / len(meses_ordem)) * 100, 1)
+
+        st.markdown(f"""
+        ### Percentual de meses trabalhados (jan-out)
+        **{percentual_trabalhado}%**
+        """)
+
         st.subheader("Mapa de Coletas no Ano Selecionado")
         st.markdown(html, unsafe_allow_html=True)
         
