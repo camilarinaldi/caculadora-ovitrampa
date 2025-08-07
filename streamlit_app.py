@@ -1033,11 +1033,7 @@ with aba_indicador:
 
 with aba_qualifica:
  coluna_texto, coluna_porcentagem = st.columns([1, 2])
- texto_qualifica = """
-      ### Ficha 5
-      Pelo menos 80% dos ciclos mensais de monitoramento realizados (equivalente a 8 meses de monitoramento), conforme os critérios de avaliação.
-  """
-  st.markdown(texto_qualifica)
+
  with coluna_texto:
   texto_qualifica = """
       ### Ficha 5
