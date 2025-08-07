@@ -1241,14 +1241,27 @@ with aba_qualifica:
      
      # Exibir
      with coluna_metrica:
-        # Percentual de meses trabalhados de jan a out
-        meses_trabalhados = len(meses_com_dado)
-        percentual_trabalhado = round((meses_trabalhados / len(meses_ordem)) * 100, 1)
+        # --- Cálculo do percentual de meses trabalhados após o início do monitoramento ---
+        primeiro_mes_index = df_filtrado['date'].dt.month.min()
+        meses_validos = [mes for i, mes in enumerate(meses_ordem, start=1) if i >= primeiro_mes_index]
 
+        meses_com_coleta = df_filtrado[df_filtrado['ovitrap_id'].notna()]['month'].unique()
+        meses_trabalhados = len([m for m in meses_validos if m in meses_com_coleta])
+
+        total_meses_validos = len(meses_validos)
+        if total_meses_validos > 0:
+            percentual_trabalhado = round((meses_trabalhados / total_meses_validos) * 100, 1)
+        else:
+            percentual_trabalhado = 0.0
+
+
+        # inicio tabela
+        # Exibir o resultado
         st.markdown(f"""
-        ### Percentual de meses trabalhados (jan-out)
+        ### Percentual de meses trabalhados (a partir do início do monitoramento)
         **{percentual_trabalhado}%**
         """)
+
 
         st.subheader("Mapa de Coletas no Ano Selecionado")
         st.markdown(html, unsafe_allow_html=True)
