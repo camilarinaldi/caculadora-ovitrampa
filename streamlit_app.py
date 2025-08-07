@@ -1255,14 +1255,24 @@ with aba_qualifica:
             percentual_trabalhado = 0.0
         
         st.markdown(f"""
-        ### Percentual de meses trabalhados (a partir do início do monitoramento)
-        **{percentual_trabalhado}%**
-        """)
+        <div style="font-size:26px; font-weight:bold; color:#333;">
+        ### Percentual de meses trabalhados (a partir do início do monitoramento): <span style="color:#007200;">{percentual_trabalhado}%</span>
+        </div>
+        """, unsafe_allow_html=True)
       
         if percentual_trabalhado >= 80:
-                st.success("✅ Meta atingida: município elegível ao Qualifica RS.")
+            st.markdown("""
+            <div style="font-size:22px; font-weight:bold; color:green; background-color:#e6f4ea; padding:10px; border-radius:8px;">
+            ✅ Meta atingida: município elegível ao Qualifica RS.
+            </div>
+            """, unsafe_allow_html=True)
         else:
-                st.warning("⚠️ Meta não atingida: percentual abaixo de 80%.")
+            st.markdown("""
+            <div style="font-size:22px; font-weight:bold; color:#b35900; background-color:#fff4e6; padding:10px; border-radius:8px;">
+            ⚠️ Meta não atingida: percentual abaixo de 80%.
+            </div>
+            """, unsafe_allow_html=True)
+
 
         # inicio tabela
         # Exibir o resultado
