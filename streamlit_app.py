@@ -1253,16 +1253,19 @@ with aba_qualifica:
             percentual_trabalhado = round((meses_trabalhados / total_meses_validos) * 100, 1)
         else:
             percentual_trabalhado = 0.0
-
-
-        # inicio tabela
-        # Exibir o resultado
+        
         st.markdown(f"""
         ### Percentual de meses trabalhados (a partir do início do monitoramento)
         **{percentual_trabalhado}%**
         """)
+      
+        if percentual_trabalhado >= 80:
+                st.success("✅ Meta atingida: município elegível ao Qualifica RS.")
+        else:
+                st.warning("⚠️ Meta não atingida: percentual abaixo de 80%.")
 
-
+        # inicio tabela
+        # Exibir o resultado
         st.subheader("Mapa de Coletas no Ano Selecionado")
         st.markdown(html, unsafe_allow_html=True)
         
